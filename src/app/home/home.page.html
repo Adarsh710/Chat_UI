@@ -1,20 +1,119 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
-    <ion-title>
-      Blank
+    <ion-title class="ion-text-center title-padding-horizontal">
+      <ion-row>
+        <ion-col size="1.8" class="ion-no-padding">
+          <ion-buttons>
+            <ion-button fill="clear" class="width-42 height-42">
+              <ion-icon
+                slot="icon-only"
+                color="medium"
+                name="search"
+              ></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-col>
+        <ion-col class="ion-no-padding ion-align-self-center">
+          <ion-label>Contacts</ion-label>
+        </ion-col>
+        <ion-col size="1.8" class="ion-no-padding">
+          <ion-buttons class="ion-justify-content-end">
+            <ion-button fill="clear" class="width-42 height-42">
+              <ion-icon
+                slot="icon-only"
+                color="medium"
+                name="ellipsis-horizontal"
+              ></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="status-header ion-padding-horizontal">
+    <ion-row class="w-100">
+      <ion-col size="6" class="ion-no-padding ion-align-self-center">
+        <ion-label color="medium" class="fs-15"><strong>ONLINE</strong></ion-label>
+      </ion-col>
+      <ion-col size="6" class="ion-no-padding">
+        <ion-button
+          fill="clear"
+          shape="round"
+          color="primary"
+          class="button-float-right"
+        >
+          +ADD FRIENDS
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div class="online-users ion-margin-vertical padding-horizontal-4px">
+    <ion-slides pager="false" [options]="slideOpts">
+      <ion-slide *ngFor="let item of online_users">
+        <ion-avatar class="avatar ion-activatable ripple-parent">
+          <img [src]="item.user_image" />
+          <span class="online-dot"></span>
+          <ion-ripple-effect></ion-ripple-effect>
+        </ion-avatar>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <div class="recent-chats ion-padding-horizontal">
+    <ion-list>
+      <ion-item
+        *ngFor="let item of recent_chats"
+        lines="none"
+        class="ion-no-padding ion-activatable ripple-parent"
+      >
+      <ion-ripple-effect></ion-ripple-effect>
+        <ion-avatar class="avatar">
+          <img [src]="item.user_image" />
+          <span *ngIf="item.is_online" class="online-dot"></span>
+        </ion-avatar>
+        <ion-label class="ion-padding-start">
+          <ion-row class="w-100">
+            <ion-col size="8.5" class="ion-no-padding">
+              <h2><strong>{{item.user_name}}</strong></h2>
+            </ion-col>
+            <ion-col class="ion-no-padding">
+              <ion-label class="ion-float-right fs-13">{{item.last_seen}}</ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row class="w-100 margin-top-6">
+            <ion-col size="10.5" class="ion-no-padding">
+              <ion-label  class="fs-16 color-primary" *ngIf="item.is_typing">
+                Typing...
+              </ion-label >
+              <ion-label  class="fs-16 color-dark" *ngIf="item.unseen_message_count && !item.is_typing">
+                {{item.last_message}}
+              </ion-label >
+              <ion-label  class="fs-16 color-medium" *ngIf="!item.unseen_message_count && !item.is_typing">
+                {{item.last_message}}
+              </ion-label >
+            </ion-col>
+            <ion-col class="ion-no-padding">
+              <ion-icon
+                *ngIf="!item.unseen_message_count && !item.sent_by_me"
+                class="fs-20"
+                name="checkmark-done"
+                color="medium"
+              ></ion-icon>
+              <span
+                *ngIf="item.unseen_message_count"
+                class="ion-float-right custom-badge"
+                ><span class="message-count fs-14" color="light"
+                  >{{item.unseen_message_count}}</span
+                ></span
+              >
+            </ion-col>
+          </ion-row>
+        </ion-label>
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>
