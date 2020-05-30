@@ -42,8 +42,7 @@
         <ion-button
           fill="clear"
           shape="round"
-          color="primary"
-          class="button-float-right"
+          class="button-float-right color-theme"
         >
           +ADD FRIENDS
         </ion-button>
@@ -78,10 +77,10 @@
         <ion-label class="ion-padding-start">
           <ion-row class="w-100">
             <ion-col size="8.5" class="ion-no-padding">
-              <h2><strong>{{item.user_name}}</strong></h2>
+              <ion-label><h2><strong>{{item.user_name}}</strong></h2></ion-label>
             </ion-col>
-            <ion-col class="ion-no-padding">
-              <ion-label class="ion-float-right fs-13">{{item.last_seen}}</ion-label>
+            <ion-col class="ion-no-padding ion-align-self-center">
+              <ion-label class="ion-float-right fs-13 color-medium">{{item.last_seen}}</ion-label>
             </ion-col>
           </ion-row>
           <ion-row class="w-100 margin-top-6">
@@ -98,7 +97,7 @@
             </ion-col>
             <ion-col class="ion-no-padding">
               <ion-icon
-                *ngIf="!item.unseen_message_count && !item.sent_by_me"
+                *ngIf="!item.unseen_message_count && item.sent_by_me"
                 class="fs-20"
                 name="checkmark-done"
                 color="medium"
