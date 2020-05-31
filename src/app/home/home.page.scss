@@ -16,6 +16,31 @@
   padding-right: 4px !important;
 }
 
+.chat-searchbox {
+  --box-shadow: none;
+  --border-radius	: 25px;
+  --icon-color: transparent;
+  --background: var(--ion-color-light, #f4f5f8);
+}
+
+#searchbox-container {
+  height: 0px;
+  opacity: 0;
+  overflow: hidden;
+  transition: height .5s ease-in-out, opacity .5s ease-in-out;
+  .chat-searchbox {
+    display: none;
+  }
+}
+
+#searchbox-container.is-active {
+  height: 58px;
+  opacity: 1;
+  .chat-searchbox {
+    display: block;
+  }
+}
+
 .w-100 {
   width: 100%;
 }

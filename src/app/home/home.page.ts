@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserDataService } from '../services/user-data.service';
 
 @Component({
@@ -7,6 +7,9 @@ import { UserDataService } from '../services/user-data.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+
+  @ViewChild('chatSearch') search : any;
+
   slideOpts = {
     speed: 400,
     freeMode: true,
@@ -17,6 +20,7 @@ export class HomePage implements OnInit {
 
   online_users;
   recent_chats;
+  filtered_chats;
 
   constructor(private userDataService: UserDataService) {}
 
@@ -27,8 +31,35 @@ export class HomePage implements OnInit {
   async getDashboardData() {
     this.online_users = await this.userDataService.get_online_users();
     this.recent_chats = await this.userDataService.get_recent_chats();
+    this.filtered_chats = this.recent_chats;
     console.log(this.recent_chats);
     
+  }
+
+  showSearchBox() {
+    const search_box = document.getElementById('searchbox-container')
+    search_box.classList.toggle('is-active')
+    if(search_box.classList.contains('is-active')) {
+      setTimeout(() => {
+        this.search.setFocus();
+      }, 500);
+    }
+  }
+
+  hideSearchbox(e) {
+    const search_box = document.getElementById('searchbox-container')
+    setTimeout(() => {
+      if(search_box.classList.contains('is-active')) {
+        search_box.classList.remove('is-active')
+      }
+    }, 50);
+  }
+
+  searchInChats(e) {
+    console.log(e.target.value);
+    this.filtered_chats = this.recent_chats.filter(chat_object => {
+      return chat_object.user_name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
+    })
   }
 
 }
